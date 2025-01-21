@@ -274,3 +274,8 @@ void playGame() {
     getch(); // منتظر ورودی از کاربر
     showMenu(); // بازگشت به منوی اصلی
 }
+// تابع اصلی برنامه
+int main() {
+    showMenu(); // منوی اصلی
+    return 0;
+}
