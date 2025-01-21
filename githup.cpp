@@ -197,3 +197,33 @@ void showMenu() {
         exit(0); // خروج از برنامه
      }
 }
+// تابع نمایش منوی انتخاب سطح سختی
+void DifficultyMenu() {
+    char choice;
+    cout << "*-*-*-*--* Game level *-*-*-*-*--" << endl;
+    cout << "1= Easy" << endl;
+    cout << "2= Medium" << endl;
+    cout << "3= Hard" << endl;
+    cout << "Enter your choice : ";
+    cin >> choice;
+    
+    // تنظیم سطح سختی
+    switch (choice) {
+        case '1':
+            difficultyLevel = 1;
+            break;
+        case '2':
+            difficultyLevel = 2;
+            break;
+        case '3':
+            difficultyLevel = 3;
+            break;
+        default:
+            cout << "Another choice defaulting to Easy." << endl;
+            difficultyLevel = 1;
+            break;
+    }
+
+    generateMap();  // ایجاد نقشه
+    playGame(); // شروع بازی
+}
