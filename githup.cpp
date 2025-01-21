@@ -179,3 +179,21 @@ bool GameFinished() {
 float calculateScore(int timeTaken, int moves, int bombsUsed) {
     return 1000.0f / (1 + W_T * timeTaken + W_M * moves + W_B * bombsUsed);
 }
+// تابع نمایش منو اصلی
+void showMenu() {
+    char choice;
+    cout << "*-*-*-*-*- Your menu *-*-*-*-*-*-" << endl;
+    cout << "1. Start Game" << endl;
+    cout << "2. Help" << endl;
+    cout << "3. Exit" << endl;
+    cout << "Enter your choice ?: " ;
+    cin >> choice;
+    
+    if (choice == '1') {
+        DifficultyMenu(); // نمایش منوی انتخاب سختی
+    } else if (choice == '2') {
+        showHelp(); // نمایش راهنما
+    } else  {
+        exit(0); // خروج از برنامه
+     }
+}
