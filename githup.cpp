@@ -119,3 +119,9 @@ void movePlayer(char direction) {
     }
     }
 }
+// قرار دادن بمب
+void placeBomb() {
+    bombs.push_back({playerX, playerY, 2, true});
+    grid[playerX][playerY] = BOMB;
+    bombCount++;  //افزایش  بمبا
+}
