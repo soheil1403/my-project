@@ -1,6 +1,9 @@
 #include <iostream>
-#include <conio.h>  // ???? getch()
+#include <conio.h>  // برای getch()
 #include <vector>
-#include <cstdlib>  // ???? rand()
-#include <ctime>    // ???? time()
+#include <cstdlib>  // برای rand()
+#include <ctime>    // برای time()
 using namespace std;
+
+const int WIDTH = 10;  // عرض نقشه
+const int HEIGHT = 10; // ارتفاع نقشه
