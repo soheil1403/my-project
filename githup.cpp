@@ -46,3 +46,38 @@ void DifficultyMenu();
 void showHelp();
 void playGame();
 float calculateScore(int timeTaken, int moves, int bombsUsed);
+
+// تابع ایجاد نقشه با مرز و عناصر
+void generateMap() {
+    srand(time(0));  
+    
+    // تغییرات بسته به سطح سختی
+    int enemyChance = 10 + 5 * difficultyLevel;  // افزایش  دشمن با سختی
+    int brickChance = 15 + 5 * difficultyLevel;  // افزایش دیوار آجری با سختی
+    int concreteChance = 10 + 3 * difficultyLevel;  // افزایش  بتنی با سختی
+    
+    for (int i = 0; i < HEIGHT + 2; i++) {
+        for (int j = 0; j < WIDTH + 2; j++) {
+            if (i == 0 || i == HEIGHT + 1 || j == 0 || j == WIDTH + 1) {
+                grid[i][j] = BORDER; // ایجاد مرز دور نقشه
+            } else if (i == 1 && j == 1) {
+                grid[i][j] = PLAYER; // موقعیت شروع بازیکن
+            } else if (i == HEIGHT && j == WIDTH) {
+                grid[i][j] = EXIT; // مکان ثابت دروازه خروج
+            } else if (rand() % 100 < brickChance) {
+                grid[i][j] = BRICK; // احتمال دیوار آجری
+            } else if (rand() % 100 < concreteChance) {
+                grid[i][j] = CONCRETE; // احتمال دیوار بتنی
+            } else if (rand() % 100 < enemyChance) {
+                grid[i][j] = ENEMY; // احتمال دشمن
+            } else {
+                if ((i + j) % 2 == 0) {
+               grid[i][j] = '-';
+              } else {
+              grid[i][j] = '_';
+               }
+                   // الگوی خانه خالی
+            }
+        }
+    }
+}
