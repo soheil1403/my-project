@@ -236,3 +236,41 @@ void showHelp() {
     getch(); // منتظر ورودی از کاربر
     showMenu(); // بازگشت به منوی اصلی
 }
+// تابع اصلی بازی
+void playGame() {
+    char input;
+    bool gameOver = false;
+
+    startTime = time(0); // ثبت زمان شروع بازی
+
+    while (!gameOver) {
+        printGrid();
+        input = getch();
+        
+        if (input == 'w' || input == 'a' || input == 's' || input == 'd') {
+            movePlayer(input);
+            updateBombs();
+        } else if (input == 'b') {
+            placeBomb();
+        }
+
+        gameOver = GameFinished(); // بررسی شرایط پایان بازی
+    }
+    
+    endTime = time(0); // ثبت زمان پایان بازی
+    int timeTaken = difftime(endTime, startTime); // محاسبه مدت زمان بازی
+
+    // محاسبه و نمایش امتیاز
+    float score = calculateScore(timeTaken, moveCount, bombCount);
+    
+    // نمایش نتیجه بازی
+    cout << "Congratulations! You have destroyed all enemies and reached the exit!" << endl;
+    cout << "Game Over!" << endl;
+    cout << "Duration: " << timeTaken << " seconds" << endl;
+    cout << "Your score: " << score << endl;
+
+    // برگشت به منوی اصلی
+    cout << "Press any key to return to the main menu..." << endl;
+    getch(); // منتظر ورودی از کاربر
+    showMenu(); // بازگشت به منوی اصلی
+}
