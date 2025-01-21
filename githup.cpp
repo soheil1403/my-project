@@ -81,3 +81,14 @@ void generateMap() {
         }
     }
 }
+
+// تابع نمایش نقشه
+void printGrid() {
+    system("cls");//پاک کردن صفحه 
+    for (int i = 0; i < HEIGHT +  2; i++) {
+        for (int j = 0; j < WIDTH + 2; j++) {
+            cout << grid[i][j] << ' ' ;
+        }
+        cout << endl;
+}
+}
