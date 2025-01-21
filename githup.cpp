@@ -125,3 +125,32 @@ void placeBomb() {
     grid[playerX][playerY] = BOMB;
     bombCount++;  //افزایش  بمبا
 }
+// آپدیت بمب‌ها
+void updateBombs() {
+    for (int i = 0; i < bombs.size(); i++) {
+        if (bombs[i].active) {
+            bombs[i].moveCount--;
+            if (bombs[i].moveCount == 0) {
+                int x = bombs[i].x;
+                int y = bombs[i].y;
+                bombs[i].active = false;
+                
+                for (int dx = -1; dx <= 1; dx++) {
+                    for (int dy = -1; dy <= 1; dy++) {
+                        int nx = x + dx;
+                        int ny = y + dy;
+                        if (nx >= 1 && nx <= HEIGHT && ny >= 1 && ny <= WIDTH) {
+                            if ((grid[nx][ny] == BRICK || grid[nx][ny] == ENEMY) && grid[nx][ny] != CONCRETE) {
+                                if ((nx + ny) % 2 == 0) {
+                                grid[nx][ny] = '-';
+                                } else {
+                              grid[nx][ny] = '_';
+                              }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
