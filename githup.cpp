@@ -154,3 +154,28 @@ void updateBombs() {
         }
     }
 }
+// بررسی پایان بازی
+bool GameFinished() {
+    // بررسی نابودی تمام دشمن‌ها
+    bool allEnemiesDestroyed = true;
+    for (int i = 1; i <= HEIGHT; i++) {
+        for (int j = 1; j <= WIDTH; j++) {
+            if (grid[i][j] == ENEMY) {
+                allEnemiesDestroyed = false;
+                break;
+            }
+        }
+    }
+
+    // شرط پایان بازی: همه دشمنان نابود و بازیکن به خروجی برسد
+    if (allEnemiesDestroyed && playerX == HEIGHT && playerY == WIDTH) {
+        return true;
+    }
+
+    return false;
+}
+
+// تابع محاسبه امتیاز
+float calculateScore(int timeTaken, int moves, int bombsUsed) {
+    return 1000.0f / (1 + W_T * timeTaken + W_M * moves + W_B * bombsUsed);
+}
