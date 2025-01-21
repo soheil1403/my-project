@@ -25,3 +25,24 @@ struct Bomb {
 int playerX = 1, playerY = 1; // شروع بازیکن توی نقشه 
 vector<Bomb> bombs;
 char grid[HEIGHT + 2][WIDTH + 2]; // +2 برای مرزهای بالا و پایین
+
+int moveCount = 0;  // تعداد حرکت‌ها
+int bombCount = 0;  // تعداد بمب‌های استفاده‌شده
+time_t startTime, endTime;  // زمان شروع و پایان بازی
+
+// متغیرهای سختی و وزن‌ها
+int difficultyLevel = 1;  // 1: آسان, 2: متوسط, 3: سخت
+float W_T = 0.5, W_M = 0.3, W_B = 0.2;  // وزن‌های زمان، حرکت‌ها و بمب‌ها
+
+// توابع بازی
+void generateMap();
+void printGrid();
+void movePlayer(char direction);
+void placeBomb();
+void updateBombs();
+bool GameFinished();
+void showMenu();
+void DifficultyMenu();
+void showHelp();
+void playGame();
+float calculateScore(int timeTaken, int moves, int bombsUsed);
