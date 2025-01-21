@@ -92,3 +92,30 @@ void printGrid() {
         cout << endl;
 }
 }
+// حرکت بازیکن
+void movePlayer(char direction) {
+    int newX = playerX;
+    int newY = playerY;
+    
+    switch (direction) {
+        case 'w': newX--; break;
+        case 's': newX++; break;
+        case 'a': newY--; break;
+        case 'd': newY++; break;
+    }
+    
+    if (newX >= 1 && newX <= HEIGHT && newY >= 1 && newY <= WIDTH) {
+        if (grid[newX][newY] != CONCRETE && grid[newX][newY] != BRICK && grid[newX][newY] != ENEMY) {
+            if ((playerX + playerY) % 2 == 0) {
+              grid[playerX][playerY] = '-';
+             } else {
+              grid[playerX][playerY] = '_';
+             }
+
+            playerX = newX;
+            playerY = newY;
+            grid[playerX][playerY] = PLAYER;
+            moveCount++;  // افزایش تعداد حرکت‌ها
+    }
+    }
+}
