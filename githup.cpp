@@ -227,3 +227,12 @@ void DifficultyMenu() {
     generateMap();  // ایجاد نقشه
     playGame(); // شروع بازی
 }
+void showHelp() {
+    cout << "*-*-*-*Do you want help?*-*-*-" << endl;
+     cout << "1. Use 'w', 'a', 's', 'd' keys to move the player" << endl;
+    cout << "2. Use b to place a bomb." << endl;
+     cout << "3. Destroy the enemies with bombs and go to the end house " << endl;
+    cout << "Press any key to go back to the main menu." << endl;
+    getch(); // منتظر ورودی از کاربر
+    showMenu(); // بازگشت به منوی اصلی
+}
