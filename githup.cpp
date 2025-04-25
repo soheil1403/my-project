@@ -156,4 +156,22 @@ void Reservation::print() const{
 
 
 bool Reservation::cancel() {
+	if (status==Reserv){
+       status=Cancel;
+       s->setbalance(s->getBalance() + m->getCost());
+       cout << "Reservation cancelled. Refund processed." << endl;
+       return true;
+   }else {
+    cout<<"Already cancelled." << endl;
+    return false;
+   }
+}
+
+void Reservation :: setReservationID(int id){
+  reservation_id = id;
+}
+void Reservation::setStatus(Status stat) { status = stat; }
+void Reservation::setCreatedAt(time_t c) { created_at = c; }
+
+int Reservation::getReservationID() const { return reservation_id; }
 
