@@ -245,4 +245,16 @@ string Meal::getName() const { return name;}
 float Meal::getPrice() const {return price;}
 MealType Meal::getMealType() const { return mealtype;}
 vector<string> Meal::getSideItems() const { return side_items;}
+void Meal::setName(const string& newName) {name = newName; }
+void Meal::setPrice(float newPrice) { if (newPrice>=0)price = newPrice;}
+void Meal::setMealType(MealType type) {mealtype = type;}
+
+
+void Meal::setMealID(int id){
+  if (id>0){
+    meal_id = id;
+  }else{
+    cout<<"Invalid Meal ID! Must be positive";
+  }
+}
 
