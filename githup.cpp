@@ -258,3 +258,24 @@ void Meal::setMealID(int id){
   }
 }
 
+class DiningHall { private:
+    int hall_id;
+    string name;
+    string address;
+    int capacity;//?????
+     public:
+
+     DiningHall (int h , string n , string a , int c) {}
+     void print() const;
+//?? ??
+     int getHallID() const;
+     string getAddress() const;
+     int getCapacity() const;
+     string getName() const;
+     //?? ??
+     void setName(string n);
+     void setAddress(string n);
+     void setCapacity(int n);
+
+};
+
