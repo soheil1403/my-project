@@ -194,4 +194,18 @@ class Meal { private :
     vector<string> side_items;
             public:
   Meal ();
+  void print ()const;
+  void update_price(float new_price) ;
+  void add_side_item(const string& item);
+
+//?? ??
+  void setMealID(int id);
+  void setName(const string& newName);
+  void setPrice(float newPrice);
+  void setMealType(MealType type);
+//?? ??
+  int getMealID() const;
+  string getName() const;
+  float getPrice() const;
+  MealType getMealType() const;
 
