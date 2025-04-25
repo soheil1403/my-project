@@ -70,4 +70,26 @@ class student {      private :
    float getBalance() const;
   bool getIsActive() const;
 };
+void student::print() const {
+  cout << "User ID: " << user_id << endl;
+  cout << "Student ID: " << student_id << endl;
+  cout << "Name: " << name << endl;
+  cout << "Email: " << email << endl;
+  cout << "Balance: " << balance << endl;
+  cout << "Active: " << (is_active ? "Yes" : "No") << endl;
+}
+
+bool student::reserve_meal ( string meal_name ,float c ) {
+      if ( ! is_active ) {
+        cout<< "not active";
+      } else { return false;}
+
+      if ( balance>=c ) {
+        balance = balance  - c ;
+         cout << "Reserved meal= " << meal_name << "money" << c ;
+         return true ;
+      } else {
+        cout<< "you are out of stock " ;
+        return false;
+      }
 
