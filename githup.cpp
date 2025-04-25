@@ -208,4 +208,25 @@ class Meal { private :
   string getName() const;
   float getPrice() const;
   MealType getMealType() const;
+   vector<string> getSideItems() const;
+
+};
+
+Meal::  Meal() : meal_id(0) ,name ("") , price(0.0), mealtype(bereakfast) {}
+
+void Meal :: print ()const{
+     switch (mealtype){
+       case bereakfast : cout<<"bereakfast" << endl; 
+       break;
+       case lunch : cout<< "lunch" << endl; break ;
+       case  dinner : cout<< "dinner"<< endl;break;}
+       cout << "Side Items: ";
+       for (size_t i = 0; i < side_items.size(); ++i){
+        cout<<side_items[i]<<endl;
+       }
+
+     cout<< "meal_id:"<<meal_id;
+     cout << "Name: " << name << endl;
+     cout << "Price: $" << price << endl;
+     cout << "Meal Type: ";}
 
