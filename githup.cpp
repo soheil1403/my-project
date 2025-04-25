@@ -174,4 +174,24 @@ void Reservation::setStatus(Status stat) { status = stat; }
 void Reservation::setCreatedAt(time_t c) { created_at = c; }
 
 int Reservation::getReservationID() const { return reservation_id; }
+// student* Reservation::getStudent() const { return s; }
+// DiningHall* Reservation::getDiningHall() const { return d;}
+ //Meal* Reservation::getName() const { return m;}
+Status Reservation::getStatus() const { return status; }
+time_t Reservation::getCreatedAt() const { return created_at; }
+
+//?? ??? 
+
+enum MealType {
+ bereakfast , lunch , dinner
+};
+
+class Meal { private :
+    int meal_id;
+    string name ;
+    float price ;
+    MealType mealtype;
+    vector<string> side_items;
+            public:
+  Meal ();
 
