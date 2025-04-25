@@ -229,4 +229,20 @@ void Meal :: print ()const{
      cout << "Name: " << name << endl;
      cout << "Price: $" << price << endl;
      cout << "Meal Type: ";}
+      void Meal::add_side_item(const string& i){
+      side_items.push_back(i);
+     }
+
+
+
+     void Meal :: update_price(float np){
+      if (np>0){
+        price=np;
+       }}
+
+int Meal::getMealID() const { return meal_id;}
+string Meal::getName() const { return name;}
+float Meal::getPrice() const {return price;}
+MealType Meal::getMealType() const { return mealtype;}
+vector<string> Meal::getSideItems() const { return side_items;}
 
