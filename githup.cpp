@@ -28,4 +28,21 @@ class Reservation { private :
   DiningHall* getDiningHall() const;
   Meal* getMeal() const;
  Status getStatus() const;
+ Status getStatus() const;
+  time_t getCreatedAt() const;
+
+};
+
+
+class student {      private :
+                    vector<Reservation> reservations; 
+     int user_id;
+      string student_id;
+     string name;
+     string email;
+     float balance;
+     bool is_active;
+                     public :
+   student (int id , string id1 , string n , string e , float b , bool a=true ) { //??????
+    user_id=id ;
 
