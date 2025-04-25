@@ -110,4 +110,19 @@ bool student::reserve_meal ( string meal_name ,float c ) {
           cout << "Balance cannot be negative." << endl;
         }
       } 
+      void  student::setname(string a ){// ?? ???
+      if ( a.length()>= 2 ){
+        name=a;
+      }else {
+        cout<< "name is not true";
+      }
+     }
+
+     void student:: setemail (string e){//?? ?????
+        if (e.find('@') != string::npos){
+          email=e;
+        }else{
+          cout<<"email is not true";
+        }
+     }
 
