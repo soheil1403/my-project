@@ -140,3 +140,20 @@ enum Status {
   Cancel  // ????
 };
 
+void Reservation::print() const{
+  cout << "Reservation ID: " << reservation_id << endl;
+  cout << "Student: " << s->getName() << endl;
+   cout << "Meal: " << m->getMealName() << endl;
+   cout << "Dining Hall: " << d->getHallName() << endl;
+ cout<< "Status";
+ if (status == Reserv){
+  cout<<"reserv"<< endl;
+ }else {
+  cout<<"cancel"<< endl;
+ }
+ cout << "Created at: " << ctime(&created_at);
+}
+
+
+bool Reservation::cancel() {
+
