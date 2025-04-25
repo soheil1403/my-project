@@ -297,4 +297,13 @@ string DiningHall::getName()const {return name; }
 string DiningHall::getAddress() const{ return address; }
 int DiningHall::getCapacity() const{ return capacity;}
 int DiningHall::getHallID() const { return hall_id;}
+void DiningHall::setName(string n) { name = n; }
+void DiningHall::setAddress(string n) { address = n; }
+void DiningHall::setCapacity(int n) {
+    if (n > 0)
+        capacity = n;
+    else
+        cerr << "Capacity must be positive!" << endl;
+}
+int main (){}
 
