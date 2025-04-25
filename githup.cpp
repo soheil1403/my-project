@@ -45,4 +45,16 @@ class student {      private :
                      public :
    student (int id , string id1 , string n , string e , float b , bool a=true ) { //??????
     user_id=id ;
+     student_id=id1;
+    name= n ;
+    email = e ; 
+    balance = b;
+    is_active=a;
+   } 
+   
+   void print() const;
+   void addReservation(const Reservation& res);
+
+  bool reserve_meal ( string meal_name ,float c ) ; 
+  bool cancel_reservation(string meal_name, float c1) ;
 
