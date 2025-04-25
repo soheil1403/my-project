@@ -125,4 +125,18 @@ bool student::reserve_meal ( string meal_name ,float c ) {
           cout<<"email is not true";
         }
      }
+     // ?? ??? ??? student
+     int student::getUserID() const { return user_id; }
+string student::getStudentID() const { return student_id;}
+string student::getName() const { return name;}
+string student::getEmail() const { return email; }
+float student::getBalance() const { return balance;}
+bool student::getIsActive()const { return is_active; }
+
+////////////?????? ???? ???
+
+enum Status {
+  Reserv,  // ????
+  Cancel  // ????
+};
 
