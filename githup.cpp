@@ -92,4 +92,22 @@ bool student::reserve_meal ( string meal_name ,float c ) {
         cout<< "you are out of stock " ;
         return false;
       }
+      } bool student :: cancel_reservation (string meal_name, float c1){
+       balance = balance + c1;
+       cout<<"cancelled reservation for"<<meal_name<< "Refunded ="<< c1 ;
+
+
+      } 
+      void student::addReservation(const Reservation& res) {
+        reservations.push_back(res);
+    }
+  
+      
+      void student::setbalance(float a )  {//?? ?????? 
+        if (a>0){
+          balance=a;
+        }else {
+          cout << "Balance cannot be negative." << endl;
+        }
+      } 
 
