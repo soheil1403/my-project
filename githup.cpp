@@ -57,4 +57,17 @@ class student {      private :
 
   bool reserve_meal ( string meal_name ,float c ) ; 
   bool cancel_reservation(string meal_name, float c1) ;
+   void setbalance (float a );
+  void setname ( string a);
+
+  void setemail (string e);
+
+  string getName() const; 
+  int getUserID() const;
+  string getStudentID() const;
+  
+  string getEmail() const;
+   float getBalance() const;
+  bool getIsActive() const;
+};
 
