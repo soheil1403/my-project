@@ -1,6 +1,16 @@
 #include <iostream>
 using namespace std;
-int main (){
+#include <vector>
+class Reservation { private :
+  time_t created_at;// ????
 
-int num1 ,num2 ,num3 , temp;}
+  student *s;          
+  DiningHall* d;        
+    Meal* m;
+  int  reservation_id;
+  Status status;  //enum
+                    public : 
+  Reservation (int res ,Status sta , time_t c , student* stu);//DiningHall* hall, Meal* m )                 
+
+  void print() const ;
 
