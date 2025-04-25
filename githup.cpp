@@ -278,4 +278,23 @@ class DiningHall { private:
      void setCapacity(int n);
 
 };
+DiningHall::DiningHall(int id, string n, string a, int c){
+  hall_id=id;
+  name=n;
+  address=a;
+  capacity=c;
+}
+
+void DiningHall::print() const{
+  cout<< "hall_id:"<<hall_id<<endl;
+  cout<<"name::"<<name<<endl;
+  cout<<"address"<<address<<endl;
+  cout<<"capacity"<<capacity<<endl;
+}
+     
+//?? ??
+string DiningHall::getName()const {return name; }
+string DiningHall::getAddress() const{ return address; }
+int DiningHall::getCapacity() const{ return capacity;}
+int DiningHall::getHallID() const { return hall_id;}
 
