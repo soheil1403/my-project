@@ -423,6 +423,7 @@ class Admin : public User{
 
 class Panel {
   public:
+  void Action (int);
      void showStudentInfo();            // اطلاعات دانشجو
     void checkBalance();               // موجودی
      void viewReservations() ;           // رزروهh
@@ -434,18 +435,66 @@ class Panel {
     void viewRecentTransactions();     // تراکنش‌ها
     void cancelReservation(int) ;       // لغو رزرو با id
 
+    void showmenu (){}
+    void exit() {}
+};
 
+void Panel ::Action (int a){
+   switch(a){
+    case 1 :
+     showmenu ();
+     break;
+    case 2 :
+      showStudentInfo();
+      break;
+    case 3 :
+       viewReservations ();
+       break;
+    case 4 :
+      checkBalance();
+      break;
+    case 5 : 
+      addReservation();
+    break;
+    case 6 :
+      addToShoppingCart();
+      break;
+    case 7 : 
+      confirmShoppingCart();
+      break;
+    case 8 : 
+      removeShoppingCartItem();
+      break;
+    case 9 : 
+      increaseBalance();
+      break;
+    case 10 :
+      viewRecentTransactions();
+      break;
+    case 11 :
+    int a;
+    cancelReservation(a);
+    break;    
+    case 0:
+    exit();
+    break;
+    default:
+   }
+}
 
-    void showmenu (){
-      cout << "3. view reservations"<<endl;
-      cout << "4. Add to Shopping Cart"<<endl;
-      cout << "9. Cancel Reservation"<<endl;
-       cout << "6. Remove Shopping Cart Item"<<endl;
-       cout << "7. Increase Balance";
-      cout << "0. Exit"<<endl;
-    }
-    void exit() {
-        cout << "exiting" << endl;
+class Storage { private:
+   int _mealIDCounter;
+   int _diningHallIDCounter;
+    vector<Meal> allMeals;
+    vector<DiningHall> allDiningHalls;
+
+    Storage ():_diningHallIDCounter(1),_mealIDCounter(1){};
+    Storage(const Storage&) = delete;
+    Storage& operator=(const Storage&) = delete;//حدف کپی‌ساز و کپی‌اپراتور
+    public:
+    static Storage& instance(){
+      static Storage instance;
+      return instance;//فقط یک شی ساخته مشه
     }
 };
 int main (){}
