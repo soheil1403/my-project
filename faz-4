@@ -1,0 +1,1181 @@
+#include <iostream>
+using namespace std;
+#include <vector>
+//#include <ctime>
+
+class Reservation { private:
+  time_t created_at;// زمان
+
+ // student *s;          
+  DiningHall*d;        
+    Meal*m;
+  int  reservation_id;
+  Status status=NOT_PAID;  //اولش پرداخت نشده که 
+                    public : 
+  Reservation (int resID,Status status,time_t created,DiningHall* hall,Meal* meal);               
+
+  void print()const ; 
+  bool cancel();
+
+  void setReservationID(int id);
+ // void setStudent(student* stu);
+ //void setDiningHall(DiningHall* hall);
+ //void setMeal(Meal* m);
+  void setStatus(Status stat);
+  void setCreatedAt(time_t c);
+
+
+  int getReservationID() const;
+  student* getStudent() const;
+  DiningHall* getDiningHall() const;
+  Meal* getMeal() const;
+ Status getStatus() const;
+  time_t getCreatedAt() const;
+
+};
+class User{protected:
+    int userID;
+    string name;
+    string lastName;
+    string hashedPassword;
+      public:
+    User (int id , const string& n,const string &lastn,const string&hp);
+
+    string hashPassword(const string password);//سیستم فوق ساده هش:/
+
+     void setPassword( const string password);
+     bool checkPassword(const string password);
+     void setHashedPassword(const string h) ;
+     string getHashedPassword();
+    
+    //پلیفرمیسم
+    virtual void print() const = 0;
+    virtual string getType() const = 0;
+   
+    int getUserID() const;
+    string getName()const;
+    string getLastName()const;
+    string getHashedPassword() const;
+
+    
+    void setName(const string& n);
+    void setLastName(const string& lastn);
+    void setHashedPassword(const string& hp);
+};
+
+string User ::hashPassword(const string password) {
+  string h;
+  h= password;
+  return h;
+}
+
+//سیستم هش
+void User ::setPassword (const string password) {
+   hashedPassword = hashPassword(password);
+}
+bool User:: checkPassword(const string password){
+  return hashedPassword == hashPassword(password);
+}
+string User::getHashedPassword() const {
+        return hashedPassword;}
+
+        void User:: setHashedPassword(const string h){
+          hashedPassword=h;
+
+        }
+
+
+
+
+
+class student : public User {      private :
+    vector<Transaction> transactions; 
+    vector<Reservation> reservations; 
+     string phone;
+     string student_id;
+     string email;
+     float balance;
+     bool is_active;
+                     public :
+   student();                  
+   student (int id, const string& id1, const string& n,const string& p, const string& ln,
+    const string& e, float b, const string& hp, bool a = true) : 
+    User(id, n, ln, hp), student_id(id1), email(e), balance(b), is_active(a),phone(p) {}
+    
+   bool isActive();
+   void activate();
+   void deactivate();
+   void print() const override;
+   string getType() const override;
+   void addReservation(const Reservation& res);
+  bool reserve_meal (const Reservation& res, string meal_name ,float c) ; 
+  bool cancel_reservation(string meal_name, float c1) ;
+ 
+  
+  void setbalance (float a );
+  void setname ( string a);
+
+  void setemail (string e);
+
+  string getName() const; 
+  int getUserID() const;
+  string getStudentID() const;
+  
+  string getEmail() const;
+   float getBalance() const;
+  bool getIsActive() const;
+      const vector<Transaction>& getTransactions() const {
+        return transactions;
+    }
+    vector<Reservation>& getReservations() 
+    { return reservations; 
+    }
+
+
+};
+
+bool student ::isActive(){
+  return is_active;
+}
+void student ::activate() {
+  is_active = true;
+}
+void student ::deactivate(){
+  is_active=false;
+}
+
+void student::print() const {
+  cout << "User ID: " <<  getUserID() << endl;
+  cout << "Student ID: " << student_id << endl;
+  cout << "Name: " << getName() << endl;
+  cout << "Phone: " << phone << endl;
+  cout << "Email: " << email << endl;
+  cout << "Balance: " << balance << endl;
+  cout << "Active: " << (is_active ? "Yes" : "No") << endl;
+}
+string student::getType() const {
+  return "Student";
+}
+
+bool student::reserve_meal (const Reservation& res,string meal_name ,float c ) {
+      if (! is_active ) {
+        cout<< "not active";
+      } else { return false;}
+
+      if ( balance>=c ) {
+         reservations.push_back(res);
+        balance = balance  - c ;
+         cout << "Reserved meal= "<< meal_name <<"money"<< c ;
+         return true ;
+      } else {
+        cout<< "you are out of stock " ;
+        return false;
+      }
+
+
+         
+
+} bool student :: cancel_reservation (string meal_name, float c1){
+       balance = balance + c1;
+       cout<<"cancelled reservation for"<<meal_name<< "Refunded ="<< c1 ;
+
+
+      } 
+      void student::addReservation(const Reservation& res) {
+        reservations.push_back(res);
+    }
+  
+      
+      void student::setbalance(float a )  {//ست بالانس 
+        if (a>0){
+          balance=a+balance;
+        }else {
+          cout << "Balance cannot be negative." << endl;
+        }
+      }  
+
+     void  student::setname(string a ){// ست نیم
+      if ( a.length()>= 2 ){
+         setName(a); 
+      }else {
+        cout<< "name is not true";
+      }
+     }
+
+     void student:: setemail (string e){//ست ایمیل
+        if (e.find('@') != string::npos){
+          email=e;
+        }else{
+          cout<<"email is not true";
+        }
+     }
+    
+       
+     
+
+     // گت های رده student
+     //int student::getUserID() const { return user_id; }
+string student::getStudentID() const { return student_id;}
+//string student::getName() const { return name;}
+string student::getEmail() const { return email; }
+float student::getBalance() const { return balance;}
+bool student::getIsActive()const { return is_active; }
+
+////////////ناموسا خسته شدم
+
+enum Status {
+   SUCCESS
+  ,NOT_PAID,
+  CANCELLED, 
+  FAILED,   
+};
+
+ 
+
+
+void Reservation::print() const{
+  cout << "Reservation ID: " << reservation_id << endl;
+  //cout << "Student: " << s->getName() << endl;
+   cout << "Meal: " << m->getMealName() << endl;
+   cout << "Dining Hall: " << d->getHallName() << endl;
+ cout<< "Status";
+ if (status == SUCCESS){
+  cout<<"reserv"<< endl;
+ }else {
+  cout<<"cancel"<< endl;
+ }
+ cout << "Created at: " << ctime(&created_at);
+}
+
+
+bool Reservation::cancel() {
+  if (status==CANCELLED){
+    cout<<"Reservation is already cancelled"; return false;
+  } status = CANCELLED;
+   cout << "Reservation cancelled successfully." << endl; 
+}
+
+void Reservation :: setReservationID(int id){
+  reservation_id = id;
+}
+void Reservation::setStatus(Status stat) { status = stat; }
+void Reservation::setCreatedAt(time_t c) { created_at = c; }
+
+int Reservation::getReservationID() const { return reservation_id; }
+// student* Reservation::getStudent() const { return s; }
+// DiningHall* Reservation::getDiningHall() const { return d;}
+ //Meal* Reservation::getName() const { return m;}
+Status Reservation::getStatus() const { return status; }
+time_t Reservation::getCreatedAt() const { return created_at; }
+
+//یا علی 
+
+enum MealType {
+ bereakfast ,lunch , dinner
+};
+enum ReserveDay { sat, aun,mon, tue,wed,thu,fri };
+
+class Meal { private :
+    int meal_id;
+    string name ;
+     bool isactive;
+    float price ;
+    MealType mealtype;
+    ReserveDay reserveday;
+    vector<string> side_items;
+            public:
+  Meal(int id,const string & name, float price,MealType type, ReserveDay day);
+  bool isActive() const;
+    MealType getMealType() const;
+    ReserveDay getReserveDay() const;
+    void setMealType(MealType type);
+    void setReserveDay(ReserveDay day);
+  void activate();
+  void deactivate();  
+  void print ()const;
+  void update_price(float new_price) ;
+  void add_side_item(const string& item);
+
+//ست ها
+  void setMealID(int id);
+  void setName(const string& newName);
+  void setPrice(float newPrice);
+  void setMealType(MealType type);
+//گت ها
+  int getMealID() const;
+  string getName() const;
+  float getPrice() const;
+  MealType getMealType() const;
+  vector<string> getSideItems() const;
+
+};
+void Meal::setMealType(MealType type){
+    mealtype =type;
+}
+
+void Meal::setReserveDay(ReserveDay day) {
+    reserveday =day;
+}
+bool Meal::isActive() const{
+    return isactive;
+}
+MealType Meal::getMealType() const {
+  return mealtype;
+}
+ReserveDay Meal::getReserveDay()const {
+  return reserveday;
+}
+void Meal::activate(){
+    isactive =true;
+}
+void Meal::deactivate() {
+    isactive = false;
+}
+
+Meal::  Meal(int id,const string & name, float price,MealType type, ReserveDay day) :
+ meal_id(0) ,name (name) ,price(0),isactive(true), mealtype(bereakfast), reserveday(sat) {}
+
+void Meal::print()const{
+     switch (mealtype){
+       case bereakfast : cout<<"bereakfast" << endl; 
+       break;
+       case lunch : cout<< "lunch" << endl;
+        break ;
+       case  dinner : cout<< "dinner"<< endl;
+       break;}
+       cout << "Side Items: ";
+       for (size_t i = 0; i <side_items.size(); ++i){
+        cout<<side_items[i]<<endl;
+       }
+
+     cout<< "meal_id:"<<meal_id;
+     cout << "Name: " << name << endl;
+     cout << "Price: $" << price << endl;
+     cout << "Meal Type: ";}
+
+     void Meal::add_side_item(const string& i){
+      side_items.push_back(i);
+     }
+
+
+
+     void Meal :: update_price(float np){
+      if (np>0){
+        price=np+price;
+       }}
+
+int Meal::getMealID() const {return meal_id;}
+string Meal::getName() const{return name;}
+float Meal::getPrice() const {return price;}
+ MealType Meal::getMealType() const{return mealtype;}
+vector<string> Meal::getSideItems() const{return side_items;}
+
+void Meal::setName(const string& newName){name=newName;}
+void Meal::setPrice(float newPrice){ if(newPrice>=0)price=newPrice;}
+void Meal::setMealType(MealType type){mealtype = type;}
+
+
+void Meal::setMealID(int id){
+  if (id>0){
+    meal_id = id;
+  }else{
+    cout<<"Invalid Meal ID! Must be positive";
+  }
+}
+
+
+//
+
+class DiningHall { private:
+    int hall_id;
+    string name;
+    string address;
+    int capacity;//ظرفیت
+     public:
+
+     DiningHall (int h , string n , string a , int c) {}
+     void print() const;
+//گت ها
+     int getHallID() const;
+     string getAddress() const;
+     int getCapacity() const;
+     string getName() const;
+     //ست ها
+     void setName(string n);
+     void setAddress(string n);
+     void setCapacity(int n);
+
+};
+
+DiningHall::DiningHall(int id, string n, string a, int c){
+  hall_id=id;
+  name=n;
+  address=a;
+  capacity=c;
+}
+
+void DiningHall::print() const{
+  cout<< "hall_id:"<<hall_id<<endl;
+  cout<<"name::"<<name<<endl;
+  cout<<"address"<<address<<endl;
+  cout<<"capacity"<<capacity<<endl;
+}
+     
+//گت 
+string DiningHall::getName()const {return name; }
+string DiningHall::getAddress() const{ return address; }
+int DiningHall::getCapacity() const{ return capacity;}
+int DiningHall::getHallID() const { return hall_id;}
+//ست
+void DiningHall::setName(string n) { name = n; }
+void DiningHall::setAddress(string n) { address = n; }
+void DiningHall::setCapacity(int n) {
+    if (n > 0)
+        capacity = n;
+    else
+        cerr << "Capacity must be positive!" << endl;
+}
+
+
+///تعریف تابع های user
+User::User (int id , const string& n , const string & lastn,const string&hp ){
+  userID=id;
+  name=n; 
+  lastName=lastn;
+  hashedPassword=hp;
+}
+void User::setName(const string& n){name = n;}
+void User::setLastName(const string& lastn) {lastName =lastn;}
+void User::setHashedPassword(const string& hp){hashedPassword =hp;}
+int User::getUserID() const{return userID;}
+string User::getName() const{return name;}
+string User::getLastName() const{return lastName;}
+string User::getHashedPassword() const{return hashedPassword;}
+
+//admin
+class Admin : public User{
+  public:
+    Admin() : User(0, "", "", "") {}
+  Admin(int id,const string& n,const string& lastn,conststring& hp)
+        : User(id, n, lastn, hp) {}
+
+        string getType()const override {
+        return "Admin";
+    }
+        void print()const override {
+          cout<<"id admin "<<userID<<endl;
+          cout<<"name "<<name;
+        }
+};
+
+
+
+
+
+class Storage { 
+   int _mealIDCounter;
+   int _diningHallIDCounter;
+   public:
+    vector<Meal> allMeals;
+    vector<DiningHall> allDiningHalls;
+
+    Storage ():_diningHallIDCounter(1),_mealIDCounter(1){};
+    Storage(const Storage&)=delete;
+    Storage& operator=(const Storage&)=delete;//حدف کپی‌ساز و کپی‌اپراتور
+    public:
+    void addMeal(Meal);
+    void addDinningHall(DiningHall);
+    void removeMeal(int);
+    void removeDinningHall(int);
+    void MealActivation(int, bool);
+    vector<Meal>::iterator findMeal(int);
+    vector<DiningHall>::iterator findDiningHall(int);
+    static Storage& instance(){
+      static Storage instance;
+      return instance;//فقط یک شی ساخته مشه
+    }
+};
+
+void Storage::addMeal(Meal meal){
+  meal.setMealID(_mealIDCounter++);
+
+  for(int i=0;i<allMeals.size();i++){
+   if (allMeals[i].getMealID()==meal.getMealID()){
+    cout<<" از قبل این آیدی رو داریم";
+   }
+  } allMeals.push_back(meal);
+  cout<<"اضافه شد";
+
+}
+void Storage :: addDinningHall(DiningHall Dini){
+  Dini.setHallID(_diningHallIDCounter++);//ست هال اضافه کن
+  for (int i=0;i<allDiningHalls.size();i++){
+    if(allDiningHalls[i].getHallID()== Dini.getHallID()){
+      cout<<"ایدی موجود است";
+  
+    }return;
+  }allDiningHalls.push_back(Dini);
+  cout<<"اضافه شد";
+
+}
+void Storage::removeMeal(int s){
+  bool found= false;
+  for(int i=0;i<allMeals.size();i++){
+    if (allMeals[i].getMealID()==s){
+      allMeals.erase(allMeals.begin() + i);
+      cout<<"پاک شد";
+      found = true;
+      break;
+    }
+  } if(!found){
+    cout<<"آیدی پیدا نشد";
+  }
+
+}  
+void Storage::removeDinningHall(int s){
+  bool found = false ;
+  for(int i=0;i<allDiningHalls.size();i++){
+    if (allDiningHalls[i].getHallID()==s){
+      allDiningHalls.erase(allDiningHalls.begin() +i);
+      found = true;
+      break;
+    }
+  } if(!found){
+    cout<<"آیدی پیدا نشد";
+  }
+} 
+void Storage::MealActivation(int a, bool s){
+  for(int i=0;i<allMeals.size();i++){
+    if (allMeals[i].getMealID()==a){
+      if(s){
+        allMeals[i].activate();
+        cout<<"فعال شد";
+      }else{
+        allMeals[i].deactivate();
+        cout<<"غیر فعال شد";
+   }   return;
+    }
+  } cout<<"ایدی پیدا نشد";
+}
+
+vector<Meal>::iterator Storage::findMeal(int mealID){
+   for (int i= 0;i<allMeals.size();i++) {
+        if (allMeals[i].getMealID()==mealID) {
+          return allMeals.begin()+i;
+        }
+    }
+}
+
+vector<DiningHall>::iterator Storage::findDiningHall(int h){
+  for(int i=0;i<allDiningHalls.size();i++){
+  if (allDiningHalls[i].getHallID()==h){
+        return allDiningHalls.begin()+i;
+    }
+}}
+
+
+
+
+
+
+
+
+
+//تراکنش
+enum class TransactionType { Deposit, Payment };
+enum class TransactionStatus { Pending, Completed, Failed };
+class Transaction{ private:
+    int transactionID;
+    string trackingCode ;
+    float amount;
+    TransactionType type ;//enum
+    TransactionStatus status;//enum
+    time_t createdAt ;//time
+    public:
+    Transaction();
+
+    //set
+    void setTransactionID(int id);
+    void setTrackingCode(string & code);
+    void setAmount(float amount);
+    void setType(TransactionType type);
+    void setStatus(TransactionStatus status);
+    void setCreatedAt(time_t  t);
+    //get
+     int getTransactionID() const;
+    std::string getTrackingCode() const;
+    float getAmount() const;
+    TransactionType getType() const;
+    TransactionStatus getStatus() const;
+    time_t getCreatedAt() const;
+
+};
+
+
+
+
+
+class ShoppingCart { private:
+  vector<Reservation> _reservations;
+  public:
+  void addReservation(Reservation reservation);
+  void removeReservation(int ID);
+  void viewShoppingCartItems();
+  void clear();
+  vector<Reservation> getReservations() const;
+  Transaction confirm(student*s);
+
+
+};
+
+ Transaction ShoppingCart::confirm(student* s){
+  Transaction t;
+  if (_reservations.empty()){
+    cout<<"no food;";
+    t.setStatus(TransactionStatus::Failed ); return t;
+  }
+
+  
+  float k =0;   
+
+for (int i=0;i< _reservations.size();i++){
+    k =k +_reservations[i].getMeal()->getPrice();
+}
+
+  t.setType(TransactionType ::Payment);
+  t.setCreatedAt(time (nullptr) );
+  t.setAmount(k );
+
+  if (s->getBalance()<k){
+    cout<<"You don't have money.";
+    t.setStatus(TransactionStatus::Failed);
+    return t ;
+  }
+
+  s->setbalance(-k);
+  t.setStatus(TransactionStatus ::Completed) ;
+  cout<<"it's ok";
+
+ }
+
+void ShoppingCart ::addReservation (Reservation reservation){//اضافه کردن
+  _reservations.push_back(reservation);
+  cout<<"Reservation added"<<endl;
+}
+
+void ShoppingCart ::removeReservation (int Id){
+  for (int i =0;i<_reservations.size();i++) {
+   if (_reservations[i].getReservationID()==Id) {
+        _reservations.erase(_reservations.begin()+i);
+        cout << Id <<"Deleted "<<endl;
+        return;
+    }
+}
+cout << Id <<"not found"<< endl;
+
+}
+
+void ShoppingCart::viewShoppingCartItems(){
+  if (_reservations.empty()){
+    cout<<"It is empty."<<endl;
+  }
+  for(const Reservation& r : _reservations){
+    r.print();
+  }
+}
+
+void ShoppingCart ::clear (){
+  _reservations.clear();
+  cout<<"Everything was cleared."<<endl;
+}
+
+vector<Reservation>ShoppingCart:: getReservations() const{
+  return _reservations;
+}
+
+
+
+Transaction::Transaction() :transactionID(0), trackingCode(" "),//کانستواکتور
+amount(0),type(TransactionType::Payment),status(TransactionStatus::Pending),
+createdAt(time(nullptr)) {}
+//گت
+int Transaction::getTransactionID() const {return transactionID;}
+std::string Transaction::getTrackingCode() const{ return trackingCode;}
+float Transaction::getAmount()const {return amount;}
+TransactionType Transaction::getType()const{return type;}
+TransactionStatus Transaction::getStatus()const {return status;}
+time_t Transaction::getCreatedAt()const{ return createdAt;}
+//ست
+void Transaction::setTransactionID(int id){ transactionID= id;}
+void Transaction::setTrackingCode(string& code){ trackingCode=code;}
+void Transaction::setAmount(float a){
+    if (a>= 0) amount=a;}
+void Transaction::setType(TransactionType t) {type =t;}
+void Transaction::setStatus(TransactionStatus s){status = s;}
+void Transaction::setCreatedAt(time_t t){ createdAt = t;}
+
+//////////////////////////////
+namespace AdminSession {
+    class SessionManager : public SessionBase {
+    public:
+        
+    };
+}
+
+namespace StudentSession {
+    class SessionManager : public SessionBase {
+    public:
+        
+    };
+}
+
+
+
+enum class SessionStatus {
+    AUTHENTICATED,//تایید
+      ANONYMOUS//ناشناس
+};
+
+class SessionBase { protected :
+  time_t createdAt;
+  time_t lastTimeLogin;
+  SessionStatus  status;
+  virtual void load_session()= 0;
+  virtual void save_session()= 0; 
+  public:
+  virtual void login(string, string) =0;
+  virtual void logout() =0;
+
+   void setCreatedAt(time_t t){createdAt =t; }
+    void setLastTimeLogin(time_t t){ lastTimeLogin =t;}
+    void setStatus(SessionStatus s) { status= s;}
+    //set
+    time_t getCreatedAt()const {return createdAt; }
+    time_t getLastTimeLogin() const {return lastTimeLogin;}
+    SessionStatus getStatus()const {return status;}
+
+};
+
+
+namespace StudentSession {
+
+    class SessionManager : public SessionBase {
+    private:
+        student* _currentStudent;
+        ShoppingCart* shopping_cart;
+        int studentID;
+
+        
+        SessionManager() :_currentStudent(nullptr),shopping_cart(nullptr),studentID(-1) {}
+    public:
+        static SessionManager& instance();
+        void load_session()override{};
+        void save_session()override{};
+        void login(const string u,const string p)override{
+           if (u =="1"&& p=="2") {
+              status=SessionStatus::AUTHENTICATED;
+                _currentStudent=new student;
+                cout <<"Student logged in"<<endl;
+            } else {
+                cout<<"Invalid student credentials"<<endl;
+            }
+        }
+
+        void logout() override {
+            status = SessionStatus::ANONYMOUS;
+           _currentStudent = nullptr;
+            cout <<"Student logged out"<<endl;
+        }
+
+        student* currentStudent()const  {
+          return _currentStudent; }
+        ShoppingCart* shoppingCart()const{
+          return shopping_cart; }
+        void setshoppingcart(ShoppingCart *c) {
+          shopping_cart=c;}
+        void setCurrentStudent(student* s) {
+          _currentStudent=s;}
+        int getStudentID() const {
+           return studentID;}
+        void setStudentID(int id) {
+           studentID=id;}
+    };
+    
+}
+
+
+namespace StudentSession{
+    SessionManager& SessionManager::instance() {
+    static SessionManager instance;
+        return instance;
+    }
+ }
+
+
+
+namespace AdminSession {
+
+    class SessionManager:public SessionBase{
+    private:
+        Admin*_currentAdmin;
+        int _adminID;
+
+        SessionManager() : _currentAdmin(nullptr), _adminID(-1) {}
+
+    public:
+        static SessionManager& instance();
+
+        void load_session()override {}
+        void save_session()override{}
+
+        void login(const string u, const string p) override {
+            if (u == "1" && p == "1"){
+                _currentAdmin = new Admin;
+            status =SessionStatus::AUTHENTICATED;
+                cout <<"Admin logged in "<<endl;
+            } else {
+                cout<<"Invalid admin credentials "<<endl;
+            }
+        }
+
+        void logout() override {
+         _currentAdmin = nullptr;
+         status = SessionStatus::ANONYMOUS;
+            cout<<"Admin logged out"<<endl;
+        }
+
+        Admin*currentAdmin(){
+          return _currentAdmin;}
+        void setCurrentAdmin(Admin*admin) {
+          _currentAdmin=admin;}
+         int getAdminID()const{
+          return _adminID;}
+         void setAdminID(int id) {
+          _adminID =id;}
+
+          static bool sign_in(){
+            string un , ps;
+            cout<<"enter username?";
+          cin>>un;
+            cout<<"enter password";
+            cin>>ps;
+            if (un== "admin"&&ps=="1234"){
+                cout<<"admin signed in successfully"<<endl;
+                return true;
+          }
+        }};
+
+    SessionManager& SessionManager::instance() {
+    static SessionManager instance;
+    return instance;
+    }
+
+}
+
+
+
+class Panel {
+  public:
+  void Action (int);
+     void showStudentInfo();            
+    void checkBalance();               
+     void viewReservations() ;          
+  void addReservation(Reservation);  // 
+    void addToShoppingCart();          // افزودن به سبد خرید
+     void confirmShoppingCart() ;        // تایید سبد
+    void removeShoppingCartItem() ;     // حذف از سبد
+    void increaseBalance();            // افزایش موجودی
+    void viewRecentTransactions();     // تراکنش‌ها
+    void cancelReservation() ;       // لغو رزرو با id
+    void viewShppingCart();
+    void addToShoppingCart();//
+    void confirmShoppingCart();//
+    void showmenu (){}
+    void exit() {}
+};
+
+void Panel ::Action (int a){
+   switch(a){
+    case 1 :
+     showmenu ();
+     break;
+    case 2 :
+      showStudentInfo();
+      break;
+    case 3 :
+       viewReservations ();
+       break;
+    case 4 :
+      checkBalance();
+      break;
+    case 5 :
+      addToShoppingCart();
+      break;
+    case 6 : 
+      confirmShoppingCart();
+      break;
+    case 7: 
+      removeShoppingCartItem();
+      break;
+    case 8 : 
+      increaseBalance();
+      break;
+    case 9 :
+      viewRecentTransactions();
+      break;
+    case 10 :
+    
+    cancelReservation();
+    break;  
+    case 11 : 
+    viewShppingCart();
+    break;  
+    case 0:
+    exit();
+    break;
+    default:
+   }
+}
+
+void Panel ::showmenu (){
+  Meal::print;
+}
+void Panel::showStudentInfo(){
+  student::print;
+}
+void Panel::checkBalance(){
+  student::getBalance;
+}
+void Panel::viewReservations(){
+   Reservation::print;
+}
+void Panel::viewShppingCart(){
+  ShoppingCart::viewShoppingCartItems;
+}
+void Panel::removeShoppingCartItem(){
+  ShoppingCart::removeReservation;
+}
+void Panel::increaseBalance() {
+    student ob;
+    int m;
+    cout << "Enter the amount of money.";
+    cin >> m;
+    ob.setbalance(m);
+}
+void Panel::viewRecentTransactions(){
+  student* c = StudentSession::SessionManager::instance().currentStudent();
+
+
+  
+  const vector<Transaction>& transactions= c->getTransactions();
+  cout<< "recent transactions";
+
+  for(int i=0;i<transactions.size();i++){
+     const Transaction&t=transactions[i] ;
+     if (t.getType()== TransactionType::Payment){
+      cout<<"Type: Payment";
+     }else {
+      cout<<"Type:  Deposit";
+     }
+     if (t.getStatus()==TransactionStatus::Failed){
+      cout<<"Failed";}
+      else if(t.getStatus()==TransactionStatus::Completed){
+          cout<<"Completed";} else {
+            cout<<"Pending";
+          }
+  }
+
+}
+void Panel ::cancelReservation (){
+  StudentSession::SessionManager&s=StudentSession::SessionManager::instance();
+  student* c = s.currentStudent();
+
+   vector<Reservation>& reservations=c->getReservations() ;
+   if ( reservations.empty()){
+    cout<<"no food";
+   }
+    int ID;
+    cout<<"ایدی غذا رو وارد کن ";
+    cin>>ID;
+    float p;
+   for(int i =0;i<= reservations.size();i++){
+     reservations[i].getReservationID()==ID;
+     reservations[i].setStatus(Status::CANCELLED);
+     p =reservations[i].getMeal()->getPrice();
+            c->setbalance(p);
+            cout<<"حذف شد";
+   } ;
+
+}
+class AdminPanel { public :
+
+  void showMenu();
+   void action(int choice);
+    
+void displayAllMeals();
+    void displayAllDiningHalls();
+    void addNewMealInteractive();
+    void addNewDiningHallInteractive();
+    void removeMeal();
+    void removeDiningHall();
+    void mealActivation();    
+};
+void AdminPanel::action(int a){
+  switch(a){
+    case 1:displayAllMeals();
+    break;
+    case 2:displayAllDiningHalls();
+    break;
+    case 3: addNewMealInteractive();
+    break;
+    case 4:addNewDiningHallInteractive();
+    break;
+    case 5:removeMeal(); 
+    break;
+    case 6: removeDiningHall();
+     break;
+    case 7:mealActivation();
+    break;
+    default:cout << "هیچ"; break;
+  }
+}
+void AdminPanel::displayAllMeals(){
+  Storage &s=Storage::instance();
+  cout<<"غدا ها";
+  for (int i=0;i<s.allMeals.size();i++){
+    cout<<s.allMeals[i].getMealID()<<"قیمت"<<
+    s.allMeals[i].getPrice()<<"نام"<<
+    s.allMeals[i].getName()<<endl;
+  }
+}
+void AdminPanel::displayAllDiningHalls(){
+  Storage &s=Storage::instance();
+    for (int i = 0; i < s.allDiningHalls.size(); i++) {
+        cout <<"ID:"<< s.allDiningHalls[i].getHallID()
+        << "نام:"<<s.allDiningHalls[i].getName()
+        << "ظرفیت:"<< s.allDiningHalls[i].getCapacity()<< endl;}} 
+
+  void AdminPanel::addNewMealInteractive(){
+      Storage& s = Storage::instance();
+    string name;
+    float price;
+    string types, days;
+    cout << "نام: ";
+    cin >> name;
+    cout << "قیمت: ";
+    cin >> price;
+    cout << "(breakfast/lunch/dinner)";
+    cin >> types;
+    cout << "(sat/sun/mon/tue/wed/thu/fri) ";
+    cin >> days;
+    MealType type;
+    if (types == "breakfast") {
+       type = MealType::bereakfast;   
+    } else if (types == "lunch") {
+       type = MealType::lunch;
+    } else if (types == "dinner") {
+      type = MealType::dinner;
+    } else {
+      cout << "نامعتبر" << endl;
+        return;
+    }
+    ReserveDay day;
+    if (days=="sat") {
+        day = ReserveDay::sat;
+    } else if(days=="sun") {
+        day = ReserveDay::aun;   
+    } else if(days =="mon") {
+        day = ReserveDay::mon;
+    } else if(days=="tue") {
+        day = ReserveDay::tue;
+    } else if(days == "wed") {
+        day = ReserveDay::wed;
+    } else if(days == "thu") {
+        day = ReserveDay::thu;
+    } else if(days =="fri") {
+      day = ReserveDay::fri;
+    } else {
+        cout << "روز نامعتبر" << endl;
+        return;
+    }
+
+    Meal m(0 , name, price, type, day);
+    s.addMeal(m);
+    } 
+
+
+       
+  void AdminPanel::addNewDiningHallInteractive() {
+    Storage& s = Storage::instance();
+    string name, address;
+    int capacity;
+    cout << "نام سالن: ";
+    cin >> name;
+    cout << "آدرس: ";
+    cin >> address;
+    cout << "ظرفیت: ";
+    cin >> capacity;
+    DiningHall hall(0, name, address, capacity);
+    s.addDinningHall(hall);
+
+    
+}
+void AdminPanel::removeMeal() {
+    Storage&s= Storage::instance();
+    int id;
+    cout<<"ID وعده برای حذف: ";
+    cin>>id;
+    s.removeMeal(id);
+}
+
+void AdminPanel::removeDiningHall() {
+    Storage& s= Storage::instance();
+    int id;
+    cout<<"آیدی را وارد کنید";
+    cin>>id;
+    s.removeDinningHall(id);
+}
+
+void AdminPanel::mealActivation(){
+    Storage& storage=Storage::instance();
+    int id;
+    string choice;
+    cout << "ID وعده: ";
+    cin >> id;
+    cout<< " فعال باشد یا غیرفعال؟ : ";
+    cin>>choice;
+    bool activate;
+    if(choice == "active"){
+        activate = true;
+    } else if (choice == "inactive"){
+      activate = false;
+    }else{
+        cout << "ورودی نامعتبر! لطفاً active یا inactive وارد کنید.\n";
+        return;
+    }
+    storage.MealActivation(id,activate);
+}
+
+void AdminPanel::showMenu(){
+    cout<<"=== Admin Panel Menu ===" ;
+    cout<<"1. نمایش همه غذاها";
+    cout<<"2. نمایش همه سالن‌ها" ;
+    cout<< "3. افزودن غذای جدید";
+    cout<<"4. افزودن سالن جدید";
+    cout<< "5. حذف غذا";
+    cout<<"6. حذف سالن";
+    cout<<"فعال/غیرفعال کردن غذا" ;
+    cout<< " خروج";
+    cout<<"انتخاب کنید:";
+}
+
+
+
+
+
+
+
+
+int main (){
+  
+}
